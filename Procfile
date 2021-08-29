@@ -1,1 +1,1 @@
-web: pratica1-sd
+web: pratica1
