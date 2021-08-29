@@ -5,7 +5,7 @@ PORT = os.environ.get('PORT') or 8000
 app = FastAPI()
 
 
-@app.get('/hello')
+@app.get('/')
 def app_get(name=None):
     if name:
         return f'Hello {name}!'
