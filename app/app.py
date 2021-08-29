@@ -1,8 +1,7 @@
 import os
 from fastapi import FastAPI
 from uvicorn import Config, Server
-
-PORT = int(os.environ.get('PORT')) or 8000
+PORT = os.environ.get('PORT') or 8000
 app = FastAPI()
 
 
@@ -18,6 +17,10 @@ def app_get(name=None):
 def app_clientes_get():
     return ['Mathias', 'José', 'Thiago']
 
+@app.get('/datas')
+def app_datas_get():
+    return ['10/03', '03/10', '01/03']
+
 
 @app.post('/')
 def app_post():
@@ -25,7 +28,7 @@ def app_post():
 
 
 def main():
-    config = Config(app=app, host='0.0.0.0', port=PORT, debug=True)
+    config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
     server.run()
 
