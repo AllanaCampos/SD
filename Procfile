@@ -1,1 +1,1 @@
-web: pratica-1
+web: python pratica-1
