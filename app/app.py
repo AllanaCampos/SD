@@ -13,18 +13,6 @@ def app_get(name=None):
         return 'Hello World!'
 
 
-@app.get('/clientes')
-def app_clientes_get():
-    return ['Mathias', 'José', 'Thiago']
-
-@app.get('/datas')
-def app_datas_get():
-    return ['10/03', '03/10', '01/03']
-
-
-@app.post('/')
-def app_post():
-    return 'Hello Post!'
 
 
 def main():
