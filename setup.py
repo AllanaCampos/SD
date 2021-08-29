@@ -8,7 +8,7 @@ setup(
     packages=['app'],
     entry_points={
         'console_scripts': [
-            'pratica1-sd=app.app:main',
+            'pratica1=app.app:main',
         ]
     }
 )
