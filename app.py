@@ -12,7 +12,17 @@ def app_get(name=None):
     else:
         return 'Hello World!'
 
+@app.get('/clientes')
+def app_clientes_get():
+    return ['Mathias', 'José', 'Thiago']
 
+@app.get('/produto')
+def app_produto_get():
+    return ['P1', 'P2', 'P3']
+
+@app.post('/')
+def app_post():
+    return 'Hello Post!'
 
 
 def main():
