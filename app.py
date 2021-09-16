@@ -12,6 +12,27 @@ def app_get(name=None):
     else:
         return 'Hello World!'
 
+@app.get('/resolver')
+def app_resolver_get(name=None):
+    if name == 'jenilson':
+        return 'https://jenilsonramos-sd-20211.herokuapp.com/'
+    elif name == 'hiago':
+        return 'https://sd-api-uesc.herokuapp.com/'
+    elif name == 'guilherme':
+        return 'https://nodejs-sd-guilhermesenna.herokuapp.com/'
+    elif name == 'joao':
+        return 'https://sd-joaopedrop-20212.herokuapp.com/'
+    elif name == 'luis':
+        return 'https://sd-20212-luiscarlos.herokuapp.com/ '
+    elif name == 'robert':
+        return 'https://pratica-sd.herokuapp.com/'
+    elif name == 'allana':
+        return 'https://sd-ascampos-20212.herokuapp.com'
+    if name == 'emmanuel':
+        return 'https://sd-emmanuel.herokuapp.com/'
+
+
+
 @app.get('/clientes')
 def app_clientes_get():
     return ['Mathias', 'José', 'Thiago']
