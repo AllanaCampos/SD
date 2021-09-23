@@ -12,7 +12,24 @@ def app_get(name=None):
     else:
         return 'Hello World!'
 
-@app.get('/resolver')
+
+
+
+
+@app.get('/clientes')
+def app_clientes_get():
+    return ['Mathias', 'José', 'Thiago']
+
+@app.get('/produto')
+def app_produto_get():
+    return ['P1', 'P2', 'P3']
+
+@app.post('/')
+def app_post():
+    return 'Hello Post!'
+
+
+@app.post('/resolver')
 def app_resolver_get(name=None):
     if name == 'jenilson':
         return 'https://jenilsonramos-sd-20211.herokuapp.com/'
@@ -30,21 +47,6 @@ def app_resolver_get(name=None):
         return 'https://sd-ascampos-20212.herokuapp.com'
     if name == 'emmanuel':
         return 'https://sd-emmanuel.herokuapp.com/'
-
-
-
-@app.get('/clientes')
-def app_clientes_get():
-    return ['Mathias', 'José', 'Thiago']
-
-@app.get('/produto')
-def app_produto_get():
-    return ['P1', 'P2', 'P3']
-
-@app.post('/')
-def app_post():
-    return 'Hello Post!'
-
 
 def main():
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
