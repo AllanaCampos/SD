@@ -1,5 +1,5 @@
 import os
-import json
+import request
 from fastapi import FastAPI
 from uvicorn import Config, Server
 PORT = os.environ.get('PORT') or "8000"
@@ -31,9 +31,9 @@ def app_post():
 
 
 @app.post('/resolver')
-def app_resolver_get(request):
-    #return name
-    name = json.loads(json.dumps(request)).get('arguments').get('nome')
+def app_resolver_get():
+    data = request.get_json()
+    name = data['arguments']['nome']
     if name == 'jenilson':
         return 'https://jenilsonramos-sd-20211.herokuapp.com/'
     elif name == 'hiago':
