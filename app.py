@@ -1,9 +1,11 @@
+import json
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from uvicorn import Config, Server
+from pydantic import BaseModel
+from typing import Optional
 PORT = os.environ.get('PORT') or "8000"
 app = FastAPI()
-
 
 @app.get('/')
 def app_get(name=None):
@@ -11,10 +13,6 @@ def app_get(name=None):
         return f'Hello {name}!'
     else:
         return 'Hello World!'
-
-
-
-
 
 @app.get('/clientes')
 def app_clientes_get():
@@ -30,8 +28,9 @@ def app_post():
 
 
 @app.post('/resolver')
-def app_resolver_get(name = None):
-
+async def app_resolver_get(request: Request):
+    #name = json.loads(json.dumps(request)).get('arguments').get('nome')
+    return request.json()
     if name == 'jenilson':
         return 'https://jenilsonramos-sd-20211.herokuapp.com/'
     elif name == 'hiago':
