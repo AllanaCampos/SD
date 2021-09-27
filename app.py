@@ -31,6 +31,7 @@ def app_post():
 
 @app.post('/resolver')
 def app_resolver_get(name=None):
+    return app.json
     if name == 'jenilson':
         return 'https://jenilsonramos-sd-20211.herokuapp.com/'
     elif name == 'hiago':
