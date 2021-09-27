@@ -1,5 +1,4 @@
 import os
-import request
 from fastapi import FastAPI
 from uvicorn import Config, Server
 PORT = os.environ.get('PORT') or "8000"
