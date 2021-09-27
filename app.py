@@ -6,6 +6,12 @@ from pydantic import BaseModel
 from typing import Optional
 PORT = os.environ.get('PORT') or "8000"
 app = FastAPI()
+class Arguments(BaseModel):
+    nome: str
+
+class Aluno(BaseModel):
+    operacao: str
+    arguments: Arguments
 
 @app.get('/')
 def app_get(name=None):
@@ -28,9 +34,9 @@ def app_post():
 
 
 @app.post('/resolver')
-async def app_resolver_get(request: Request):
+async def app_resolver_get(aluno: Aluno):
     #name = json.loads(json.dumps(request)).get('arguments').get('nome')
-    return request.json()
+    name = aluno.arguments.nome
     if name == 'jenilson':
         return 'https://jenilsonramos-sd-20211.herokuapp.com/'
     elif name == 'hiago':
