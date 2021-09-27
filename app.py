@@ -25,14 +25,13 @@ def app_produto_get():
     return ['P1', 'P2', 'P3']
 
 @app.post('/')
-def app_post(request = None):
-    if request.operacao == 'resolver':
-        return app_resolver_get(request.arguments)
+def app_post():
     return 'Hello Post!'
 
 
 @app.post('/resolver')
-def app_resolver_get(name=None):
+def app_resolver_get(request):
+    name = json.loads(json.dumps(request)).get('arguments').get('nome')
     if name == 'jenilson':
         return 'https://jenilsonramos-sd-20211.herokuapp.com/'
     elif name == 'hiago':
