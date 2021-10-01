@@ -5,8 +5,64 @@ from uvicorn import Config, Server
 from pydantic import BaseModel
 PORT = os.environ.get('PORT') or "8000"
 app = FastAPI()
-
-id = [[201720295, "allana"],
+servers = [
+  {
+    "id":  "201720295",
+    "nome": "allana",
+    "url": "https://sd-ascampos-20212.herokuapp.com/"
+  },
+  {
+    "id":  "201512136",
+    "nome": "annya",
+    "url": "https://sd-annyaourives-20212.herokuapp.com/hello"
+  },
+  {
+    "id":  "201710375",
+    "nome": "emmanuel",
+    "url": "https://sd-emmanuel.herokuapp.com/"
+  },
+  {
+    "id":  "201710376",
+    "nome": "guilherme",
+    "url": "https://nodejs-sd-guilhermesenna.herokuapp.com/"
+  },
+  {
+    "id":  "201710377",
+    "nome": "hiago",
+    "url": "https://sd-api-uesc.herokuapp.com/"
+  },
+  {
+    "id":  "201810665",
+    "nome": "jenilson",
+    "url": "https://jenilsonramos-sd-20211.herokuapp.com/"
+  },
+  {
+    "id":  "201610327",
+    "nome": "joao",
+    "url": "https://sd-joaopedrop-20212.herokuapp.com/"
+  },
+  {
+    "id":  "201610337",
+    "nome": "luis",
+    "url": "https://sd-20212-luiscarlos.herokuapp.com/"
+  },
+  {
+    "id":  "201620400",
+    "nome": "nassim",
+    "url": "https://sd-nassimrihan-2021-2.herokuapp.com/"
+  },
+  {
+    "id":  "201710396",
+    "nome": "robert",
+    "url": "https://pratica-sd.herokuapp.com/"
+  },
+  {
+    "id":  "201720308",
+    "nome": "victor",
+    "url": "https://sd-victor-20212.herokuapp.com/"
+  }
+]
+ids = [[201720295, "allana"],
  [201512136, "annya"],
  [201710375, "emmanuel"],
  [201710376, "guilherme"],
@@ -38,6 +94,11 @@ class Aluno(BaseModel):
     operacao: str
     arguments: Arguments
 
+class Peer(BaseModel):
+    id: str
+    nome: str
+    url: str
+
 @app.get('/')
 def app_get(name=None):
     if name:
@@ -65,16 +126,29 @@ def app_info_get():
     }
     return info
 
+@app.get('/peers')
+def app_peers_get(Id = None):
+    if Id:
+        for i in range(len(servers)):
+            if servers[i].__contains__(Id):
+                return servers[i]
+    else: return servers
+
 @app.post('/')
 def app_post():
     return 'Hello Post!'
 
+@app.post('/peers')
+def app_post(peer: Peer):
+    servers.append({"id": peer.id,
+                    "nome": peer.nome,
+                    "url": peer.url})
 
 @app.post('/resolver')
 async def app_resolver_get(aluno: Aluno):
     name = aluno.arguments.nome
-    for i in range(len(id)):
-        if id[i].__contains__(name):
+    for i in range(len(ids)):
+        if ids[i].__contains__(name):
             return urls[i]
 
 def main():
