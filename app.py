@@ -53,6 +53,18 @@ def app_clientes_get():
 def app_produto_get():
     return ['P1', 'P2', 'P3']
 
+@app.get('/info')
+def app_info_get():
+    info = {
+        "server_name": "sd-ascampos-20212",
+        "server_endpoint": "https://sd-ascampos-20212.herokuapp.com/",
+        "descrição": "Projeto de SD. Os seguintes serviços estão implementados, ... etc",
+        "versao": "0.1",
+        "Status": "online",
+        "tipo_de_eleicao_ativa": ""
+    }
+    return info
+
 @app.post('/')
 def app_post():
     return 'Hello Post!'
