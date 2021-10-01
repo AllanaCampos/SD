@@ -3,9 +3,34 @@ import os
 from fastapi import FastAPI, Request
 from uvicorn import Config, Server
 from pydantic import BaseModel
-from typing import Optional
 PORT = os.environ.get('PORT') or "8000"
 app = FastAPI()
+
+id = [[201720295, "allana"],
+ [201512136, "annya"],
+ [201710375, "emmanuel"],
+ [201710376, "guilherme"],
+ [201710377, "hiago"],
+ [201810665, "jenilson"],
+ [201610327, "joao"],
+ [201610337, "luis"],
+ [201620400, "nassim"],
+ [201710396, "robert"],
+ [201720308, "victor"]]
+urls =["https://sd-ascampos-20212.herokuapp.com/",
+       "https://sd-annyaourives-20212.herokuapp.com/hello",
+       "https://sd-emmanuel.herokuapp.com/",
+       "https://nodejs-sd-guilhermesenna.herokuapp.com/",
+       "https://sd-api-uesc.herokuapp.com/",
+       "https://jenilsonramos-sd-20211.herokuapp.com/",
+       "https://sd-joaopedrop-20212.herokuapp.com/",
+       "https://sd-20212-luiscarlos.herokuapp.com/",
+       "https://sd-nassimrihan-2021-2.herokuapp.com/",
+       "https://pratica-sd.herokuapp.com/",
+       "https://sd-victor-20212.herokuapp.com/"]
+
+
+
 class Arguments(BaseModel):
     nome: str
 
@@ -35,24 +60,10 @@ def app_post():
 
 @app.post('/resolver')
 async def app_resolver_get(aluno: Aluno):
-    #name = json.loads(json.dumps(request)).get('arguments').get('nome')
     name = aluno.arguments.nome
-    if name == 'jenilson':
-        return 'https://jenilsonramos-sd-20211.herokuapp.com/'
-    elif name == 'hiago':
-        return 'https://sd-api-uesc.herokuapp.com/'
-    elif name == 'guilherme':
-        return 'https://nodejs-sd-guilhermesenna.herokuapp.com/'
-    elif name == 'joao':
-        return 'https://sd-joaopedrop-20212.herokuapp.com/'
-    elif name == 'luis':
-        return 'https://sd-20212-luiscarlos.herokuapp.com/ '
-    elif name == 'robert':
-        return 'https://pratica-sd.herokuapp.com/'
-    elif name == 'allana':
-        return 'https://sd-ascampos-20212.herokuapp.com'
-    if name == 'emmanuel':
-        return 'https://sd-emmanuel.herokuapp.com/'
+    for i in range(len(id)):
+        if id[i].__contains__(name):
+            return urls[i]
 
 def main():
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
