@@ -79,6 +79,10 @@ p3 = Peer(
     nome= "guilherme",
     url= "https://nodejs-sd-guilhermesenna.herokuapp.com/"
   )
+servers.append(p0)
+servers.append(p1)
+servers.append(p2)
+servers.append(p3)
 '''p4 = Peer({
     "id":  "201710377",
     "nome": "hiago",
@@ -114,10 +118,7 @@ p10 = Peer({
     "nome": "victor",
     "url": "https://sd-victor-20212.herokuapp.com/"
   })
-servers.append(p0)
-servers.append(p1)
-servers.append(p2)
-servers.append(p3)
+
 servers.append(p4)
 servers.append(p5)
 servers.append(p6)
