@@ -168,7 +168,7 @@ def app_info_put(inform: Information):
     info.Status = inform.Status
     info.versao = inform.versao
     info.descricao = inform.descricao
-    info.tipo_de_eleicao = inform.tipo_de_eleicao
+    info.tipo_de_eleicao_ativa = inform.tipo_de_eleicao_ativa
 
 @app.put('/peers', status_code=200)
 def app_peers_put(Id, peer: Peer):
