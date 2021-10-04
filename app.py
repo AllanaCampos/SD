@@ -53,39 +53,33 @@ class Information(BaseModel):
     Status: str
     tipo_de_eleicao_ativa: str
 
-information = {'server_name':'sd-ascampos-20212',
-               'server_endpoint':'https://sd-ascampos-20212.herokuapp.com/',
-                'descricao':'Projeto de SD. Os seguintes serviços estão implementados, ... etc',
-                'versao':'0.1',
-                'Status':'online',
-                'tipo_de_eleicao_ativa':'ring'}
 info = Information(server_name='sd-ascampos-20212',
                    server_endpoint='https://sd-ascampos-20212.herokuapp.com/',
                    descricao='Projeto de SD. Os seguintes serviços estão implementados, ... etc',
                    versao='0.1',
                    Status='online',
                    tipo_de_eleicao_ativa='ring')
-'''p0 = Peer({
-    "id":  "201720295",
-    "nome": "allana",
-    "url": "https://sd-ascampos-20212.herokuapp.com/"
-  })
-p1 = Peer({
-    "id":  "201512136",
-    "nome": "annya",
-    "url": "https://sd-annyaourives-20212.herokuapp.com/hello"
-  })
-p2 = Peer({
-    "id":  "201710375",
-    "nome": "emmanuel",
-    "url": "https://sd-emmanuel.herokuapp.com/"
-  })
-p3 = Peer({
-    "id":  "201710376",
-    "nome": "guilherme",
-    "url": "https://nodejs-sd-guilhermesenna.herokuapp.com/"
-  })
-p4 = Peer({
+p0 = Peer(
+    id=  "201720295",
+    nome= "allana",
+    url= "https://sd-ascampos-20212.herokuapp.com/"
+  )
+p1 = Peer(
+    id=  "201512136",
+    nome= "annya",
+    url= "https://sd-annyaourives-20212.herokuapp.com/hello"
+  )
+p2 = Peer(
+    id=  "201710375",
+    nome= "emmanuel",
+    url="https://sd-emmanuel.herokuapp.com/"
+  )
+p3 = Peer(
+    id=  "201710376",
+    nome= "guilherme",
+    url= "https://nodejs-sd-guilhermesenna.herokuapp.com/"
+  )
+'''p4 = Peer({
     "id":  "201710377",
     "nome": "hiago",
     "url": "https://sd-api-uesc.herokuapp.com/"
@@ -140,7 +134,7 @@ def app_get(name=None):
         return 'Hello World!'
 
 
-'''@app.get('/info')
+@app.get('/info')
 def app_info_get():
     return info
 
@@ -189,7 +183,7 @@ def app_peers_delete(Id):
         if servers[i].id == Id:
             servers.__delitem__(i)
             return "Peer deletado"
-    return "Peer não encontrado"'''
+    return "Peer não encontrado"
 
 def main():
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
