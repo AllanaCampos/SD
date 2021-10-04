@@ -134,7 +134,7 @@ def app_get(name=None):
         return 'Hello World!'
 
 
-@app.get('/info')
+'''@app.get('/info')
 def app_info_get():
     return info
 
@@ -161,7 +161,7 @@ async def app_resolver_get(aluno: Aluno):
         if ids[i].__contains__(name):
             return urls[i]
 
-'''@app.put('/info', status_code=200)
+@app.put('/info', status_code=200)
 def app_info_put(inform: Information):
     info.server_name = inform.server_name
     info.server_endpoint = inform.server_endpoint
