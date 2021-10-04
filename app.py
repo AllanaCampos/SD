@@ -1,4 +1,4 @@
-import json
+from fastapi.encoders import jsonable_encoder
 import os
 from fastapi import FastAPI, Request
 from uvicorn import Config, Server
@@ -59,7 +59,7 @@ information = {'server_name': 'sd-ascampos-20212',
                 'versao': '0.1',
                 'Status': 'online',
                 'tipo_de_eleicao_ativa': 'ring'}
-info = Information(json = information)
+info = Information(jsonable_encoder(information))
 '''p0 = Peer({
     "id":  "201720295",
     "nome": "allana",
