@@ -59,7 +59,7 @@ information = {'server_name': 'sd-ascampos-20212',
                 'versao': '0.1',
                 'Status': 'online',
                 'tipo_de_eleicao_ativa': 'ring'}
-info = Information(information)
+info = Information(json = information)
 '''p0 = Peer({
     "id":  "201720295",
     "nome": "allana",
