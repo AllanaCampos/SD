@@ -107,13 +107,12 @@ class Information(BaseModel):
     Status: str
     tipo_de_eleicao: str
 
-info = Information()
-info.server_name = "sd-ascampos-20212"
-info.server_endpoint= "https://sd-ascampos-20212.herokuapp.com/"
-info.descricao= "Projeto de SD. Os seguintes serviços estão implementados, ... etc"
-info.versao="0.1"
-info.Status ="online"
-info.tipo_de_eleicao_ativa= ""
+info = Information({'server_name' : 'sd-ascampos-20212',
+                    'server_endpoint' : 'https://sd-ascampos-20212.herokuapp.com/',
+                    'descricao': 'Projeto de SD. Os seguintes serviços estão implementados, ... etc',
+                    'versao': 0.1,
+                    'Status' : 'online',
+                    'tipo_de_eleicao_ativa': ""})
 
 @app.get('/')
 def app_get(name=None):
@@ -154,7 +153,12 @@ async def app_resolver_get(aluno: Aluno):
 
 @app.put('/info', status_code = 200)
 def app_info_put(inform : Information):
-    info = inform
+    info.server_name = inform.server_name
+    info.server_endpoint = inform.server_endpoint
+    info.Status = inform.Status
+    info.versao = inform.versao
+    info.descricao = inform.descricao
+    info.tipo_de_eleicao = inform.tipo_de_eleicao
 
 @app.put('/peers', status_code = 200)
 def app_info_put(Id, peer: Peer):
