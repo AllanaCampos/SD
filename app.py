@@ -1,6 +1,6 @@
 from fastapi.encoders import jsonable_encoder
 import os
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException
 from uvicorn import Config, Server
 from pydantic import BaseModel
 PORT = os.environ.get('PORT') or "8000"
@@ -135,25 +135,36 @@ def app_get(name=None):
         return 'Hello World!'
 
 
-@app.get('/info')
+@app.get('/info', status_code=200)
 def app_info_get():
     return info
 
 @app.get('/peers')
-def app_peers_get(Id = None):
-    if Id:
-        for i in range(len(servers)):
-            if servers[i].id == Id:
-                return servers[i]
-    else: return servers
+def app_peers_get():
+    return servers
+
+@app.get('/peers/{id}', status_code=200)
+def app_peers_get(id: str):
+    for i in range(len(servers)):
+        if servers[i].id == id:
+            return servers[i]
+    return HTTPException(status_code=404, detail="Item not found")
 
 @app.post('/')
 def app_post():
     return 'Hello Post!'
 
-@app.post('/peers')
+@app.post('/peers', status_code=200)
 def app_peers_post(peer: Peer):
-    servers.append(peer)
+    try:
+        for i in range(len(servers)):
+            if servers[i].id == peer.id:
+                return HTTPException(status_code=409, detail="Conflict")
+            if servers[i].nome == peer.nome:
+                return HTTPException(status_code=409, detail="Conflict")
+        servers.append(peer)
+    except:
+        return HTTPException(status_code=400, detail="Bad Request")
 
 @app.post('/resolver')
 async def app_resolver_get(aluno: Aluno):
@@ -164,27 +175,30 @@ async def app_resolver_get(aluno: Aluno):
 
 @app.put('/info', status_code=200)
 def app_info_put(inform: Information):
-    info.server_name = inform.server_name
-    info.server_endpoint = inform.server_endpoint
-    info.Status = inform.Status
-    info.versao = inform.versao
-    info.descricao = inform.descricao
-    info.tipo_de_eleicao_ativa = inform.tipo_de_eleicao_ativa
+    try:
+        info.server_name = inform.server_name
+        info.server_endpoint = inform.server_endpoint
+        info.Status = inform.Status
+        info.versao = inform.versao
+        info.descricao = inform.descricao
+        info.tipo_de_eleicao_ativa = inform.tipo_de_eleicao_ativa
+    except:
+        HTTPException(status_code=400, detail="Bad Request")
 
-@app.put('/peers', status_code=200)
-def app_peers_put(Id, peer: Peer):
+@app.put('/peers/{id}', status_code=200)
+def app_peers_put(id:str, peer: Peer):
     for i in range(len(servers)):
-        if servers[i].id == Id:
+        if servers[i].id == id:
             servers[i] = peer
             return "Peer atualizado", servers[i]
 
-@app.delete('/peers', status_code=200)
-def app_peers_delete(Id):
+@app.delete('/peers/{id}', status_code=200)
+def app_peers_delete(id: str):
     for i in range(len(servers)):
-        if servers[i].id == Id:
+        if servers[i].id == id:
             servers.__delitem__(i)
             return "Peer deletado"
-    return "Peer não encontrado"
+    return HTTPException(status_code=404, detail="Not Found")
 
 def main():
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
