@@ -161,7 +161,7 @@ def app_info_put(Id, peer: Peer):
     for i in range(len(servers)):
         if servers[i].__contains__(Id):
             servers[i] = peer
-            return "Peer atualizado", json.encoder(servers[i])
+            return "Peer atualizado", servers[i]
 
 @app.delete('/peers', status_code = 200)
 def app_info_put(Id):
