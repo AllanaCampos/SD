@@ -122,7 +122,7 @@ def app_get(name=None):
         return 'Hello World!'
 
 
-@app.get('/info', status_code = 200)
+@app.get('/info', status_code=200)
 def app_info_get():
     return info
 
@@ -138,8 +138,8 @@ def app_peers_get(Id = None):
 def app_post():
     return 'Hello Post!'
 
-@app.post('/peers', status_code = 200)
-def app_post(peer: Peer):
+@app.post('/peers', status_code=200)
+def app_peers_post(peer: Peer):
     servers.append({"id": peer.id,
                     "nome": peer.nome,
                     "url": peer.url})
@@ -151,8 +151,8 @@ async def app_resolver_get(aluno: Aluno):
         if ids[i].__contains__(name):
             return urls[i]
 
-@app.put('/info', status_code = 200)
-def app_info_put(inform : Information):
+@app.put('/info', status_code=200)
+def app_info_put(inform: Information):
     info.server_name = inform.server_name
     info.server_endpoint = inform.server_endpoint
     info.Status = inform.Status
@@ -160,15 +160,15 @@ def app_info_put(inform : Information):
     info.descricao = inform.descricao
     info.tipo_de_eleicao = inform.tipo_de_eleicao
 
-@app.put('/peers', status_code = 200)
-def app_info_put(Id, peer: Peer):
+@app.put('/peers', status_code=200)
+def app_peers_put(Id, peer: Peer):
     for i in range(len(servers)):
         if servers[i].__contains__(Id):
             servers[i] = peer
             return "Peer atualizado", servers[i]
 
-@app.delete('/peers', status_code = 200)
-def app_info_put(Id):
+@app.delete('/peers', status_code=200)
+def app_peers_delete(Id):
     for i in range(len(servers)):
         if servers[i].__contains__(Id):
             servers.__delitem__(i)
