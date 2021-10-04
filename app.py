@@ -161,7 +161,7 @@ async def app_resolver_get(aluno: Aluno):
         if ids[i].__contains__(name):
             return urls[i]
 
-@app.put('/info', status_code=200)
+'''@app.put('/info', status_code=200)
 def app_info_put(inform: Information):
     info.server_name = inform.server_name
     info.server_endpoint = inform.server_endpoint
@@ -183,7 +183,7 @@ def app_peers_delete(Id):
         if servers[i].id == Id:
             servers.__delitem__(i)
             return "Peer deletado"
-    return "Peer não encontrado"
+    return "Peer não encontrado"'''
 
 def main():
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
