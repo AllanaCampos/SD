@@ -99,6 +99,22 @@ class Peer(BaseModel):
     nome: str
     url: str
 
+class Information(BaseModel):
+    server_name: str
+    server_endpoint: str
+    descricao: str
+    versao: float
+    Status: str
+    tipo_de_eleicao: str
+
+info = Information()
+info.server_name = "sd-ascampos-20212"
+info.server_endpoint= "https://sd-ascampos-20212.herokuapp.com/"
+info.descricao= "Projeto de SD. Os seguintes serviços estão implementados, ... etc"
+info.versao="0.1"
+info.Status ="online"
+info.tipo_de_eleicao_ativa= ""
+
 @app.get('/')
 def app_get(name=None):
     if name:
@@ -106,24 +122,9 @@ def app_get(name=None):
     else:
         return 'Hello World!'
 
-@app.get('/clientes')
-def app_clientes_get():
-    return ['Mathias', 'José', 'Thiago']
 
-@app.get('/produto')
-def app_produto_get():
-    return ['P1', 'P2', 'P3']
-
-@app.get('/info')
+@app.get('/info', status_code = 200)
 def app_info_get():
-    info = {
-        "server_name": "sd-ascampos-20212",
-        "server_endpoint": "https://sd-ascampos-20212.herokuapp.com/",
-        "descrição": "Projeto de SD. Os seguintes serviços estão implementados, ... etc",
-        "versao": "0.1",
-        "Status": "online",
-        "tipo_de_eleicao_ativa": ""
-    }
     return info
 
 @app.get('/peers')
@@ -138,7 +139,7 @@ def app_peers_get(Id = None):
 def app_post():
     return 'Hello Post!'
 
-@app.post('/peers')
+@app.post('/peers', status_code = 200)
 def app_post(peer: Peer):
     servers.append({"id": peer.id,
                     "nome": peer.nome,
@@ -150,6 +151,25 @@ async def app_resolver_get(aluno: Aluno):
     for i in range(len(ids)):
         if ids[i].__contains__(name):
             return urls[i]
+
+@app.put('/info', status_code = 200)
+def app_info_put(inform : Information):
+    info = inform
+
+@app.put('/peers', status_code = 200)
+def app_info_put(Id, peer: Peer):
+    for i in range(len(servers)):
+        if servers[i].__contains__(Id):
+            servers[i] = peer
+            return "Peer atualizado", json.encoder(servers[i])
+
+@app.delete('/peers', status_code = 200)
+def app_info_put(Id):
+    for i in range(len(servers)):
+        if servers[i].__contains__(Id):
+            servers.__delitem__(i)
+            return "Peer deletado"
+    return "Peer não encontrado"
 
 def main():
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
