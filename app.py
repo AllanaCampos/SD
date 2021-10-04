@@ -134,7 +134,7 @@ def app_get(name=None):
         return 'Hello World!'
 
 
-@app.get('/info', status_code=200)
+@app.get('/info')
 def app_info_get():
     return info
 
@@ -150,7 +150,7 @@ def app_peers_get(Id = None):
 def app_post():
     return 'Hello Post!'
 
-@app.post('/peers', status_code=200)
+@app.post('/peers')
 def app_peers_post(peer: Peer):
     servers.append(peer)
 
