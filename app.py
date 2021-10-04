@@ -49,14 +49,14 @@ class Information(BaseModel):
     server_name: str
     server_endpoint: str
     descricao: str
-    versao: float
+    versao: str
     Status: str
     tipo_de_eleicao: str
 
 info = Information({"server_name": "sd-ascampos-20212",
                     "server_endpoint": "https://sd-ascampos-20212.herokuapp.com/",
                     "descricao": "Projeto de SD. Os seguintes serviços estão implementados, ... etc",
-                    "versao": 0.1,
+                    "versao": "0.1",
                     "Status": "online",
                     "tipo_de_eleicao_ativa": ""})
 '''p0 = Peer({
