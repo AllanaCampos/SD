@@ -5,63 +5,9 @@ from uvicorn import Config, Server
 from pydantic import BaseModel
 PORT = os.environ.get('PORT') or "8000"
 app = FastAPI()
-servers = [
-  {
-    "id":  "201720295",
-    "nome": "allana",
-    "url": "https://sd-ascampos-20212.herokuapp.com/"
-  },
-  {
-    "id":  "201512136",
-    "nome": "annya",
-    "url": "https://sd-annyaourives-20212.herokuapp.com/hello"
-  },
-  {
-    "id":  "201710375",
-    "nome": "emmanuel",
-    "url": "https://sd-emmanuel.herokuapp.com/"
-  },
-  {
-    "id":  "201710376",
-    "nome": "guilherme",
-    "url": "https://nodejs-sd-guilhermesenna.herokuapp.com/"
-  },
-  {
-    "id":  "201710377",
-    "nome": "hiago",
-    "url": "https://sd-api-uesc.herokuapp.com/"
-  },
-  {
-    "id":  "201810665",
-    "nome": "jenilson",
-    "url": "https://jenilsonramos-sd-20211.herokuapp.com/"
-  },
-  {
-    "id":  "201610327",
-    "nome": "joao",
-    "url": "https://sd-joaopedrop-20212.herokuapp.com/"
-  },
-  {
-    "id":  "201610337",
-    "nome": "luis",
-    "url": "https://sd-20212-luiscarlos.herokuapp.com/"
-  },
-  {
-    "id":  "201620400",
-    "nome": "nassim",
-    "url": "https://sd-nassimrihan-2021-2.herokuapp.com/"
-  },
-  {
-    "id":  "201710396",
-    "nome": "robert",
-    "url": "https://pratica-sd.herokuapp.com/"
-  },
-  {
-    "id":  "201720308",
-    "nome": "victor",
-    "url": "https://sd-victor-20212.herokuapp.com/"
-  }
-]
+servers = []
+
+
 ids = [[201720295, "allana"],
  [201512136, "annya"],
  [201710375, "emmanuel"],
@@ -113,6 +59,72 @@ info = Information({'server_name' : 'sd-ascampos-20212',
                     'versao': 0.1,
                     'Status' : 'online',
                     'tipo_de_eleicao_ativa': ""})
+p0 = Peer({
+    "id":  "201720295",
+    "nome": "allana",
+    "url": "https://sd-ascampos-20212.herokuapp.com/"
+  })
+p1 = Peer({
+    "id":  "201512136",
+    "nome": "annya",
+    "url": "https://sd-annyaourives-20212.herokuapp.com/hello"
+  })
+p2 = Peer({
+    "id":  "201710375",
+    "nome": "emmanuel",
+    "url": "https://sd-emmanuel.herokuapp.com/"
+  })
+p3 = Peer({
+    "id":  "201710376",
+    "nome": "guilherme",
+    "url": "https://nodejs-sd-guilhermesenna.herokuapp.com/"
+  })
+p4 = Peer({
+    "id":  "201710377",
+    "nome": "hiago",
+    "url": "https://sd-api-uesc.herokuapp.com/"
+  })
+p5 = Peer({
+    "id":  "201810665",
+    "nome": "jenilson",
+    "url": "https://jenilsonramos-sd-20211.herokuapp.com/"
+  })
+p6 = Peer({
+    "id":  "201610327",
+    "nome": "joao",
+    "url": "https://sd-joaopedrop-20212.herokuapp.com/"
+  })
+p7 = Peer({
+    "id":  "201610337",
+    "nome": "luis",
+    "url": "https://sd-20212-luiscarlos.herokuapp.com/"
+  })
+p8 = Peer({
+    "id":  "201620400",
+    "nome": "nassim",
+    "url": "https://sd-nassimrihan-2021-2.herokuapp.com/"
+  })
+p9 = Peer({
+    "id":  "201710396",
+    "nome": "robert",
+    "url": "https://pratica-sd.herokuapp.com/"
+  })
+p10 = Peer({
+    "id":  "201720308",
+    "nome": "victor",
+    "url": "https://sd-victor-20212.herokuapp.com/"
+  })
+servers.append(p0)
+servers.append(p1)
+servers.append(p2)
+servers.append(p3)
+servers.append(p4)
+servers.append(p5)
+servers.append(p6)
+servers.append(p7)
+servers.append(p8)
+servers.append(p9)
+servers.append(p10)
 
 @app.get('/')
 def app_get(name=None):
@@ -130,7 +142,7 @@ def app_info_get():
 def app_peers_get(Id = None):
     if Id:
         for i in range(len(servers)):
-            if servers[i].__contains__(Id):
+            if servers[i].id == Id:
                 return servers[i]
     else: return servers
 
@@ -140,9 +152,7 @@ def app_post():
 
 @app.post('/peers', status_code=200)
 def app_peers_post(peer: Peer):
-    servers.append({"id": peer.id,
-                    "nome": peer.nome,
-                    "url": peer.url})
+    servers.append(peer)
 
 @app.post('/resolver')
 async def app_resolver_get(aluno: Aluno):
@@ -163,14 +173,14 @@ def app_info_put(inform: Information):
 @app.put('/peers', status_code=200)
 def app_peers_put(Id, peer: Peer):
     for i in range(len(servers)):
-        if servers[i].__contains__(Id):
+        if servers[i].id == Id:
             servers[i] = peer
             return "Peer atualizado", servers[i]
 
 @app.delete('/peers', status_code=200)
 def app_peers_delete(Id):
     for i in range(len(servers)):
-        if servers[i].__contains__(Id):
+        if servers[i].id == Id:
             servers.__delitem__(i)
             return "Peer deletado"
     return "Peer não encontrado"
