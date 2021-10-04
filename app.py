@@ -51,7 +51,7 @@ class Information(BaseModel):
     descricao: str
     versao: str
     Status: str
-    tipo_de_eleicao: str
+    tipo_de_eleicao_ativa: str
 
 info = Information({"server_name": "sd-ascampos-20212",
                     "server_endpoint": "https://sd-ascampos-20212.herokuapp.com/",
