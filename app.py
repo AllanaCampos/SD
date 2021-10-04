@@ -55,7 +55,7 @@ class Information(BaseModel):
 
 info = Information(server_name='sd-ascampos-20212',
                    server_endpoint='https://sd-ascampos-20212.herokuapp.com/',
-                   descricao='Projeto de SD. Os seguintes serviços estão implementados, ... etc',
+                   descricao='Projeto de SD. Os seguintes serviços estão implementados: request, info e peers',
                    versao='0.1',
                    Status='online',
                    tipo_de_eleicao_ativa='ring')
@@ -79,46 +79,47 @@ p3 = Peer(
     nome= "guilherme",
     url= "https://nodejs-sd-guilhermesenna.herokuapp.com/"
   )
+
+p4 = Peer(
+    id= "201710377",
+    nome= "hiago",
+    url= "https://sd-api-uesc.herokuapp.com/"
+  )
+p5 = Peer(
+    id= "201810665",
+    nome= "jenilson",
+    url= "https://jenilsonramos-sd-20211.herokuapp.com/"
+  )
+p6 = Peer(
+    id="201610327",
+    nome= "joao",
+    url= "https://sd-joaopedrop-20212.herokuapp.com/"
+  )
+p7 = Peer(
+    id= "201610337",
+    nome= "luis",
+    url= "https://sd-20212-luiscarlos.herokuapp.com/"
+  )
+p8 = Peer(
+    id= "201620400",
+    nome= "nassim",
+    url= "https://sd-nassimrihan-2021-2.herokuapp.com/"
+  )
+p9 = Peer(
+    id=  "201710396",
+    nome= "robert",
+    url= "https://pratica-sd.herokuapp.com/"
+  )
+p10 = Peer(
+    id=  "201720308",
+    nome= "victor",
+    url= "https://sd-victor-20212.herokuapp.com/"
+  )
+
 servers.append(p0)
 servers.append(p1)
 servers.append(p2)
 servers.append(p3)
-'''p4 = Peer({
-    "id":  "201710377",
-    "nome": "hiago",
-    "url": "https://sd-api-uesc.herokuapp.com/"
-  })
-p5 = Peer({
-    "id":  "201810665",
-    "nome": "jenilson",
-    "url": "https://jenilsonramos-sd-20211.herokuapp.com/"
-  })
-p6 = Peer({
-    "id":  "201610327",
-    "nome": "joao",
-    "url": "https://sd-joaopedrop-20212.herokuapp.com/"
-  })
-p7 = Peer({
-    "id":  "201610337",
-    "nome": "luis",
-    "url": "https://sd-20212-luiscarlos.herokuapp.com/"
-  })
-p8 = Peer({
-    "id":  "201620400",
-    "nome": "nassim",
-    "url": "https://sd-nassimrihan-2021-2.herokuapp.com/"
-  })
-p9 = Peer({
-    "id":  "201710396",
-    "nome": "robert",
-    "url": "https://pratica-sd.herokuapp.com/"
-  })
-p10 = Peer({
-    "id":  "201720308",
-    "nome": "victor",
-    "url": "https://sd-victor-20212.herokuapp.com/"
-  })
-
 servers.append(p4)
 servers.append(p5)
 servers.append(p6)
@@ -126,7 +127,7 @@ servers.append(p7)
 servers.append(p8)
 servers.append(p9)
 servers.append(p10)
-'''
+
 @app.get('/')
 def app_get(name=None):
     if name:
