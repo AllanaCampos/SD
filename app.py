@@ -53,7 +53,7 @@ class Information(BaseModel):
     Status: str
     tipo_de_eleicao: str
 
-info = Information({'server_name' : 'sd-ascampos-20212',
+'''info = Information({'server_name' : 'sd-ascampos-20212',
                     'server_endpoint' : 'https://sd-ascampos-20212.herokuapp.com/',
                     'descricao': 'Projeto de SD. Os seguintes serviços estão implementados, ... etc',
                     'versao': 0.1,
@@ -125,7 +125,7 @@ servers.append(p7)
 servers.append(p8)
 servers.append(p9)
 servers.append(p10)
-
+'''
 @app.get('/')
 def app_get(name=None):
     if name:
