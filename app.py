@@ -50,14 +50,14 @@ class Information(BaseModel):
     server_endpoint: str
     descricao: str
     versao: str
-    Status: str
+    status: str
     tipo_de_eleicao_ativa: str
 
 info = Information(server_name='sd-ascampos-20212',
                    server_endpoint='https://sd-ascampos-20212.herokuapp.com/',
                    descricao='Projeto de SD. Os seguintes serviços estão implementados: request, info e peers',
                    versao='0.1',
-                   Status='online',
+                   status='online',
                    tipo_de_eleicao_ativa='ring')
 p0 = Peer(
     id=  "201720295",
@@ -160,7 +160,7 @@ def app_peers_post(peer: Peer):
     for i in range(len(servers)):
         if servers[i].id == peer.id:
             return HTTPException(status_code=409, detail="Conflict")
-        if servers[i].nome == peer.nome:
+        elif servers[i].nome == peer.nome:
             return HTTPException(status_code=409, detail="Conflict")
     if type(peer.id) == str and type(peer.nome) == str and type(peer.url) == str:
         servers.append(peer)
@@ -189,10 +189,13 @@ def app_info_put(inform: Information):
 
 @app.put('/peers/{id}', status_code=200)
 def app_peers_put(id:str, peer: Peer):
-    for i in range(len(servers)):
-        if servers[i].id == id:
-            servers[i] = peer
-            return "Peer atualizado", servers[i]
+    if type(peer.id) == str and type(peer.nome) == str and type(peer.url) == str:
+        for i in range(len(servers)):
+            if servers[i].id == id:
+                servers[i] = peer
+                return servers[i].dict()
+    else:
+        return HTTPException(status_code=400, detail="Bad Request")
     return HTTPException(status_code=404, detail="Not Found")
 
 @app.delete('/peers/{id}', status_code=200)
