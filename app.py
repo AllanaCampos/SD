@@ -157,15 +157,16 @@ def app_post():
 
 @app.post('/peers', status_code=200)
 def app_peers_post(peer: Peer):
-    try:
-        for i in range(len(servers)):
-            if servers[i].id == peer.id:
-                return HTTPException(status_code=409, detail="Conflict")
-            if servers[i].nome == peer.nome:
-                return HTTPException(status_code=409, detail="Conflict")
+    for i in range(len(servers)):
+        if servers[i].id == peer.id:
+            return HTTPException(status_code=409, detail="Conflict")
+        if servers[i].nome == peer.nome:
+            return HTTPException(status_code=409, detail="Conflict")
+    if type(peer.id) == str and type(peer.nome) == str and type(peer.url) == str:
         servers.append(peer)
-    except:
+    else:
         return HTTPException(status_code=400, detail="Bad Request")
+
 
 @app.post('/resolver')
 async def app_resolver_get(aluno: Aluno):
@@ -192,6 +193,7 @@ def app_peers_put(id:str, peer: Peer):
         if servers[i].id == id:
             servers[i] = peer
             return "Peer atualizado", servers[i]
+    return HTTPException(status_code=404, detail="Not Found")
 
 @app.delete('/peers/{id}', status_code=200)
 def app_peers_delete(id: str):
