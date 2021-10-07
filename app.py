@@ -180,7 +180,7 @@ def app_info_put(inform: Information):
     try:
         info.server_name = inform.server_name
         info.server_endpoint = inform.server_endpoint
-        info.Status = inform.Status
+        info.Status = inform.status
         info.versao = inform.versao
         info.descricao = inform.descricao
         info.tipo_de_eleicao_ativa = inform.tipo_de_eleicao_ativa
