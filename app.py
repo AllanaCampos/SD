@@ -1,6 +1,5 @@
-from fastapi.encoders import jsonable_encoder
 import os
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Response, HTTPException
 from uvicorn import Config, Server
 from pydantic import BaseModel
 PORT = os.environ.get('PORT') or "8000"
@@ -115,7 +114,6 @@ p10 = Peer(
     nome= "victor",
     url= "https://sd-victor-20212.herokuapp.com/"
   )
-
 servers.append(p0)
 servers.append(p1)
 servers.append(p2)
@@ -145,27 +143,47 @@ def app_peers_get():
     return servers
 
 @app.get('/peers/{id}', status_code=200)
-def app_peers_get(id: str):
+def app_peers_get(id: str, response: Response):
     for i in range(len(servers)):
         if servers[i].id == id:
             return servers[i]
+    response.status_code = 404
     return HTTPException(status_code=404, detail="Item not found")
+
+@app.post('/reset')
+def app_reset_post():
+    servers = []
+    servers.append(p0)
+    servers.append(p1)
+    servers.append(p2)
+    servers.append(p3)
+    servers.append(p4)
+    servers.append(p5)
+    servers.append(p6)
+    servers.append(p7)
+    servers.append(p8)
+    servers.append(p9)
+    servers.append(p10)
 
 @app.post('/')
 def app_post():
     return 'Hello Post!'
 
 @app.post('/peers', status_code=200)
-def app_peers_post(peer: Peer):
+def app_peers_post(peer: Peer, response: Response):
     for i in range(len(servers)):
-        if servers[i].id == peer.id:
+        if servers[i].dict().get('id') == peer.id:
+            response.status_code = 409
             return HTTPException(status_code=409, detail="Conflict")
-        elif servers[i].nome == peer.nome:
+        elif servers[i].dict().get('nome') == peer.nome:
+            response.status_code = 409
             return HTTPException(status_code=409, detail="Conflict")
-    if type(peer.id) == str and type(peer.nome) == str and type(peer.url) == str:
+    if (not peer.nome.isdigit()) and (len(peer.url.split('.')) > 1):
         servers.append(peer)
     else:
+        response.status_code = 400
         return HTTPException(status_code=400, detail="Bad Request")
+
 
 
 @app.post('/resolver')
@@ -176,7 +194,7 @@ async def app_resolver_get(aluno: Aluno):
             return urls[i]
 
 @app.put('/info', status_code=200)
-def app_info_put(inform: Information):
+def app_info_put(inform: Information, response: Response):
     try:
         info.server_name = inform.server_name
         info.server_endpoint = inform.server_endpoint
@@ -185,25 +203,29 @@ def app_info_put(inform: Information):
         info.descricao = inform.descricao
         info.tipo_de_eleicao_ativa = inform.tipo_de_eleicao_ativa
     except:
+        response.status_code = 400
         HTTPException(status_code=400, detail="Bad Request")
 
 @app.put('/peers/{id}', status_code=200)
-def app_peers_put(id:str, peer: Peer):
+def app_peers_put(id:str, peer: Peer, response: Response):
     if type(peer.id) == str and type(peer.nome) == str and type(peer.url) == str:
         for i in range(len(servers)):
-            if servers[i].id == id:
+            if servers[i].dict().get('id') == id:
                 servers[i] = peer
                 return servers[i].dict()
     else:
+        response.status_code = 400
         return HTTPException(status_code=400, detail="Bad Request")
+    response.status_code = 400
     return HTTPException(status_code=404, detail="Not Found")
 
 @app.delete('/peers/{id}', status_code=200)
-def app_peers_delete(id: str):
+def app_peers_delete(id: str, response: Response):
     for i in range(len(servers)):
         if servers[i].id == id:
             servers.__delitem__(i)
             return "Peer deletado"
+    response.status_code = 404
     return HTTPException(status_code=404, detail="Not Found")
 
 def main():
