@@ -2,36 +2,11 @@ import os
 from fastapi import FastAPI, Response, HTTPException
 from uvicorn import Config, Server
 from pydantic import BaseModel
+from datetime import datetime, timedelta
+import uuid
 PORT = os.environ.get('PORT') or "8000"
 app = FastAPI()
 servers = []
-
-
-ids = [[201720295, "allana"],
- [201512136, "annya"],
- [201710375, "emmanuel"],
- [201710376, "guilherme"],
- [201710377, "hiago"],
- [201810665, "jenilson"],
- [201610327, "joao"],
- [201610337, "luis"],
- [201620400, "nassim"],
- [201710396, "robert"],
- [201720308, "victor"]]
-urls =["https://sd-ascampos-20212.herokuapp.com/",
-       "https://sd-annyaourives-20212.herokuapp.com/hello",
-       "https://sd-emmanuel.herokuapp.com/",
-       "https://nodejs-sd-guilhermesenna.herokuapp.com/",
-       "https://sd-api-uesc.herokuapp.com/",
-       "https://jenilsonramos-sd-20211.herokuapp.com/",
-       "https://sd-joaopedrop-20212.herokuapp.com/",
-       "https://sd-20212-luiscarlos.herokuapp.com/",
-       "https://sd-nassimrihan-2021-2.herokuapp.com/",
-       "https://pratica-sd.herokuapp.com/",
-       "https://sd-victor-20212.herokuapp.com/"]
-
-
-
 class Arguments(BaseModel):
     nome: str
 
@@ -52,12 +27,26 @@ class Information(BaseModel):
     status: str
     tipo_de_eleicao_ativa: str
 
+
+class Recurso(BaseModel):
+    codigo_de_acesso: str
+    valor: str
+
+
+class Codigo(BaseModel):
+    codigo_de_acesso: str
+
+class Validade(BaseModel):
+    validade: datetime
+
 info = Information(server_name='sd-ascampos-20212',
                    server_endpoint='https://sd-ascampos-20212.herokuapp.com/',
                    descricao='Projeto de SD. Os seguintes serviços estão implementados: request, info e peers',
                    versao='0.1',
                    status='online',
                    tipo_de_eleicao_ativa='ring')
+recurso = Recurso(codigo_de_acesso = "", valor = "")
+validade = Validade(validade = datetime.now() - timedelta(days=+1))
 p0 = Peer(
     id=  "201720295",
     nome= "allana",
@@ -126,6 +115,9 @@ servers.append(p8)
 servers.append(p9)
 servers.append(p10)
 
+
+
+
 @app.get('/')
 def app_get(name=None):
     if name:
@@ -149,6 +141,14 @@ def app_peers_get(id: str, response: Response):
             return servers[i]
     response.status_code = 404
     return HTTPException(status_code=404, detail="Item not found")
+
+
+@app.get('/recurso', status_code=200)
+def app_recurso_get(cod: Codigo, response: Response):
+    if recurso.codigo_de_acesso == cod.codigo_de_acesso and validade.validade > datetime.now():
+        return {'valor': recurso.valor}
+    else:
+        response.status_code = 401
 
 @app.post('/reset')
 def app_reset_post():
@@ -189,9 +189,18 @@ def app_peers_post(peer: Peer, response: Response):
 @app.post('/resolver')
 async def app_resolver_get(aluno: Aluno):
     name = aluno.arguments.nome
-    for i in range(len(ids)):
-        if ids[i].__contains__(name):
-            return urls[i]
+    for i in range(len(servers)):
+        if servers[i].nome == name:
+            return servers[i].url
+
+@app.post('/recurso', status_code=200)
+def app_recurso_post(response: Response):
+    if validade.validade < datetime.now():
+        recurso.codigo_de_acesso = str(uuid.uuid4())
+        validade.validade = datetime.now()+timedelta(seconds=+10)
+        return {"codigo_de_acesso": recurso.codigo_de_acesso, "validade": validade.validade}
+    else:
+        response.status_code = 409
 
 @app.put('/info', status_code=200)
 def app_info_put(inform: Information, response: Response):
@@ -219,6 +228,17 @@ def app_peers_put(id:str, peer: Peer, response: Response):
     response.status_code = 400
     return HTTPException(status_code=404, detail="Not Found")
 
+@app.put('/recurso', status_code=200)
+def app_recurso_put(rec: Recurso, response: Response):
+    if recurso.codigo_de_acesso == rec.codigo_de_acesso and validade.validade > datetime.now():
+        recurso.codigo_de_acesso = rec.codigo_de_acesso
+        recurso.valor = rec.valor
+        return recurso
+    else:
+        response.status_code = 401
+        return recurso.codigo_de_acesso == rec.codigo_de_acesso
+
+
 @app.delete('/peers/{id}', status_code=200)
 def app_peers_delete(id: str, response: Response):
     for i in range(len(servers)):
@@ -228,6 +248,13 @@ def app_peers_delete(id: str, response: Response):
     response.status_code = 404
     return HTTPException(status_code=404, detail="Not Found")
 
+@app.delete('/recurso', status_code=200)
+def app_recurso_delete(cod: Codigo, response: Response):
+    if recurso.codigo_de_acesso == cod.codigo_de_acesso and validade.validade > datetime.now():
+        recurso.codigo_de_acesso = ""
+        validade.validade = datetime.now()-timedelta(hours=+30)
+    else:
+        response.status_code = 410
 def main():
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
