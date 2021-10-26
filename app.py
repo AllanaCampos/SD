@@ -1,8 +1,10 @@
 import os
 from fastapi import FastAPI, Response, HTTPException
+from typing import Optional
 from uvicorn import Config, Server
 from pydantic import BaseModel
 from datetime import datetime, timedelta
+from fastapi.responses import HTMLResponse
 import uuid
 PORT = os.environ.get('PORT') or "8000"
 app = FastAPI()
@@ -194,13 +196,20 @@ async def app_resolver_get(aluno: Aluno):
             return servers[i].url
 
 @app.post('/recurso', status_code=200)
-def app_recurso_post(response: Response):
+def app_recurso_post(cod: Optional[Codigo] = None):
     if validade.validade < datetime.now():
-        recurso.codigo_de_acesso = str(uuid.uuid4())
-        validade.validade = datetime.now()+timedelta(seconds=+10)
-        return {"codigo_de_acesso": recurso.codigo_de_acesso, "validade": validade.validade}
+        if cod:
+            if cod.codigo_de_acesso == recurso.codigo_de_acesso:
+                return {"codigo_de_acesso": recurso.codigo_de_acesso, "validade": validade.validade}
+            else:
+                return HTMLResponse(content="Conflict", status_code=409)
+        else:
+            recurso.codigo_de_acesso = str(uuid.uuid4())
+            validade.validade = datetime.now()+timedelta(seconds=+10)
+            return {"codigo_de_acesso": recurso.codigo_de_acesso, "validade": validade.validade}
     else:
-        response.status_code = 409
+        return HTMLResponse(content="Conflict", status_code=409)
+
 
 @app.put('/info', status_code=200)
 def app_info_put(inform: Information, response: Response):
@@ -252,9 +261,10 @@ def app_peers_delete(id: str, response: Response):
 def app_recurso_delete(cod: Codigo, response: Response):
     if recurso.codigo_de_acesso == cod.codigo_de_acesso and validade.validade > datetime.now():
         recurso.codigo_de_acesso = ""
-        validade.validade = datetime.now()-timedelta(hours=+30)
+        validade.validade = datetime.now() - timedelta(days=+1)
     else:
         response.status_code = 410
+
 def main():
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
