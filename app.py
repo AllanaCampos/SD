@@ -32,7 +32,7 @@ class Information(BaseModel):
 
 class Recurso(BaseModel):
     codigo_de_acesso: str
-    valor: str
+    valor: int
 
 
 class Codigo(BaseModel):
@@ -47,7 +47,7 @@ info = Information(server_name='sd-ascampos-20212',
                    versao='0.1',
                    status='online',
                    tipo_de_eleicao_ativa='ring')
-recurso = Recurso(codigo_de_acesso = "", valor = "")
+recurso = Recurso(codigo_de_acesso = "", valor = 0)
 validade = Validade(validade = datetime.now() - timedelta(days=+1))
 p0 = Peer(
     id=  "201720295",
