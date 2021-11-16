@@ -311,7 +311,7 @@ while(True):
     time.sleep(2)
 '''
 def main():
-    config = Config(app=app, host='127.0.0.1', port=int(PORT), debug=True)
+    config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
     server.run()
 
