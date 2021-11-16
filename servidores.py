@@ -59,6 +59,11 @@ p10 = Peer(
     url= "https://jenilsonramos-sd-20211.herokuapp.com/"
   )
 
+p11 = Peer(
+    id= "201910665",
+    nome= "teste",
+    url= "https://127.0.0.1:8000/"
+  )
 
 servers.append(p0)
 servers.append(p1)
@@ -71,3 +76,4 @@ servers.append(p7)
 servers.append(p8)
 servers.append(p9)
 servers.append(p10)
+servers.append(p11)

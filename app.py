@@ -213,7 +213,7 @@ def bully(req: Requisicao):
         for i in servers:
             requests.post(i.url+"eleicao/coordenador", json=coord.dict())
 
-reqInit = Requisicao(id = str(uuid.uuid4()), dados=[])
+'''reqInit = Requisicao(id = str(uuid.uuid4()), dados=[])
 if info.tipo_de_eleicao_ativa == 'anel':
     ring(reqInit)
 else:
@@ -233,7 +233,7 @@ while(True):
             else:
                 break
     time.sleep(2)
-
+'''
 def main():
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
