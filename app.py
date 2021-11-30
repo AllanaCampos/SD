@@ -16,7 +16,7 @@ info = Information(server_name='sd-ascampos-20212',
                    descricao='Projeto de SD. Os seguintes serviços estão implementados: request, info e peers',
                    versao='0.1',
                    status='online',
-                   tipo_de_eleicao_ativa='valentao')
+                   tipo_de_eleicao_ativa='anel')
 recurso = Recurso(codigo_de_acesso="", valor=0)
 validade = Validade(validade=datetime.now() - timedelta(days=+1))
 
