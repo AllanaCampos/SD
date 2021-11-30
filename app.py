@@ -234,20 +234,18 @@ def ring(req: Requisicao):
 def bully(req: Requisicao):
     maior = 0
     for i in servers:
-        print("teste")
         if int(i.id) > int('201720295'):
             r = requests.post(i.url + "eleicao", json=req.dict())
             if r.status_code == 200:
                 maior = 1
                 break
     if maior == 0:
-        print("teste")
         coord = Coordenador_eleito(coordenador="201720295", id_eleicao=req.id)
         for i in servers:
             if i.id != "201720295":
-                print("testerequest")
                 requests.post(i.url + "eleicao/coordenador", json=coord.dict())
         coordenador.coordenador_atual = coord.coordenador
+        print("testcoord")
         if coordenador.coordenador_atual == '201720295':
             coordenador.coordenador = True
 
