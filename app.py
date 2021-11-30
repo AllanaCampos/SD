@@ -275,7 +275,7 @@ def coordenador_inicial():
     eleicoes.append(reqinit.id)
     if info.tipo_de_eleicao_ativa == 'anel':
         ring(reqinit)
-    else:
+    if info.tipo_de_eleicao_ativa == 'valentao':
         bully(reqinit)
 
 
