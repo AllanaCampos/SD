@@ -136,6 +136,7 @@ async def app_eleicao_post(req: Requisicao):
 
 @app.post('/eleicao/coordenador', status_code=200)
 def app_eleicao_coordenador_post(coord: Coordenador_eleito):
+    print("testecoordpost")
     eleicoes.remove(coord.id_eleicao)
     if coord.coordenador == "201720295":
         coordenador.coordenador = True
@@ -235,15 +236,16 @@ def bully(req: Requisicao):
     for i in servers:
         print("teste")
         if int(i.id) > int('201720295'):
-            print("teste2")
             r = requests.post(i.url + "eleicao", json=req.dict())
             if r.status_code == 200:
                 maior = 1
                 break
     if maior == 0:
+        print("teste")
         coord = Coordenador_eleito(coordenador="201720295", id_eleicao=req.id)
         for i in servers:
             requests.post(i.url + "eleicao/coordenador", json=coord.dict())
+            print("testerequest")
 
 
 def verify_event():
