@@ -289,9 +289,9 @@ def main():
 
 
 if __name__ == '__main__':
-    process = []
     t = Process(target=main())
-    process.append(t)
     t.start()
     e = Process(target=coordenador_inicial())
     e.start()
+    t.join()
+    e.join()
