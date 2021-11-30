@@ -127,16 +127,15 @@ async def app_eleicao_post(req: Requisicao):
     requests.post()'''
     eleicoes.append(req.id)
     if info.tipo_de_eleicao_ativa == 'anel':
-        a = ring(req)
-        return a
-    else:
+        ring(req)
+
+    if info.tipo_de_eleicao_ativa == 'valentao':
         bully(req)
-        return 'valentao'
+
 
 
 @app.post('/eleicao/coordenador', status_code=200)
 def app_eleicao_coordenador_post(coord: Coordenador_eleito):
-    print("testecoordpost")
     eleicoes.remove(coord.id_eleicao)
     if coord.coordenador == "201720295":
         coordenador.coordenador = True
@@ -204,7 +203,7 @@ def app_recurso_delete(cod: Codigo, response: Response):
 
 
 def ring(req: Requisicao):
-    coord = Coordenador_eleito(coordenador=0, id_eleicao=req.id)
+    coord = Coordenador_eleito(coordenador="0", id_eleicao=req.id)
     new_req = Requisicao(id = req.id, dados = req.dados)
     if req.dados.__contains__("201720295"):
         for id in req.dados:
@@ -250,7 +249,7 @@ def bully(req: Requisicao):
             coordenador.coordenador = True
 
 
-def verify_event():
+async def verify_event():
     reqInit = Requisicao(id=str(uuid.uuid4()), dados=[])
     while(True):
         for i in servers:
@@ -270,7 +269,7 @@ def verify_event():
 
 
 
-def coordenador_inicial():
+async def coordenador_inicial():
     reqinit = Requisicao(id=str(uuid.uuid4()), dados=[""])
     eleicoes.append(reqinit.id)
     if info.tipo_de_eleicao_ativa == 'anel':
