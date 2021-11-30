@@ -212,6 +212,7 @@ def ring(req: Requisicao):
         for i in servers:
             if i.id != '201720295':
                 requests.post(i.url + "eleicao/coordenador", json=coord.dict())
+        eleicoes.remove(req.id)
         coordenador.coordenador_atual = coord.coordenador
         if coordenador.coordenador_atual == '201720295':
             coordenador.coordenador = True
@@ -243,8 +244,8 @@ def bully(req: Requisicao):
         for i in servers:
             if int(i.id) != int("201720295"):
                 requests.post(i.url + "eleicao/coordenador", json=coord.dict())
+        eleicoes.remove(req.id)
         coordenador.coordenador_atual = coord.coordenador
-        print("testcoord")
         if coordenador.coordenador_atual == '201720295':
             coordenador.coordenador = True
 
@@ -286,7 +287,7 @@ def main():
 
     loop.create_task(server.serve())
     loop.create_task(coordenador_inicial())
-    #loop.create_task(verify_event())
+    loop.create_task(verify_event())
     loop.run_forever()
 
 
