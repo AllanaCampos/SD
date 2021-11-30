@@ -136,7 +136,7 @@ async def app_eleicao_post(req: Requisicao):
 @app.post('/eleicao/coordenador', status_code=200)
 def app_eleicao_coordenador_post(coord: Coordenador_eleito):
     eleicoes.remove(coord.id_eleicao)
-    if coord.coordenador == 201720295:
+    if coord.coordenador == "201720295":
         coordenador.coordenador = True
     else:
         coordenador.coordenador = False
@@ -232,7 +232,7 @@ def ring(req: Requisicao):
 def bully(req: Requisicao):
     maior = 0
     for i in servers:
-        if i > 3:
+        if i.id > "201720295":
             r = requests.post(i.url + "eleicao", json=req.dict())
             if r.status_code == 200:
                 maior = 1
