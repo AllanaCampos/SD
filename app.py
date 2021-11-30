@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from fastapi.responses import HTMLResponse
 from models import Aluno, Peer, Information, Recurso, Codigo, Validade, Coordenador, Coordenador_eleito, Requisicao
 from servidores import servers
+from multiprocessing import Process
 
 PORT = int(os.getenv("PORT", "8000"))
 app = FastAPI()
@@ -245,7 +246,7 @@ def bully(req: Requisicao):
             requests.post(i.url + "eleicao/coordenador", json=coord.dict())
 
 
-async def verify_event():
+def verify_event():
     reqInit = Requisicao(id=str(uuid.uuid4()), dados=[])
     while(True):
         for i in servers:
@@ -265,7 +266,7 @@ async def verify_event():
 
 
 
-async def coordenador_inicial():
+def coordenador_inicial():
     reqinit = Requisicao(id=str(uuid.uuid4()), dados=[""])
     eleicoes.append(reqinit.id)
     if info.tipo_de_eleicao_ativa == 'anel':
@@ -276,15 +277,21 @@ async def coordenador_inicial():
 
 
 def main():
-    loop = asyncio.new_event_loop()
+    #loop = asyncio.new_event_loop()
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
-    loop.create_task(server.serve())
-    loop.create_task(coordenador_inicial())
+    server.serve()
+    #loop.create_task(server.serve())
+    #loop.create_task(coordenador_inicial())
     #loop.create_task(verify_event())
-    loop.run_forever()
+    #loop.run_forever()
 
 
 
 if __name__ == '__main__':
-    main()
+    process = []
+    t = Process(target=main())
+    process.append(t)
+    t.start()
+    e = Process(target=coordenador_inicial())
+    e.start()
