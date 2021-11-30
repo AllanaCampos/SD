@@ -232,7 +232,9 @@ def ring(req: Requisicao):
 def bully(req: Requisicao):
     maior = 0
     for i in servers:
+        print("teste")
         if int(i.id) > int('201720295'):
+            print("teste2")
             r = requests.post(i.url + "eleicao", json=req.dict())
             if r.status_code == 200:
                 maior = 1
@@ -278,7 +280,7 @@ def main():
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
     loop.create_task(server.serve())
-    #loop.create_task(coordenador_inicial())
+    loop.create_task(coordenador_inicial())
     #loop.create_task(verify_event())
     loop.run_forever()
 
