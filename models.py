@@ -35,10 +35,10 @@ class Validade(BaseModel):
 
 class Coordenador(BaseModel):
     coordenador: bool
-    coordenador_atual: int
+    coordenador_atual: str
 
 class Coordenador_eleito(BaseModel):
-    coordenador: int
+    coordenador: str
     id_eleicao: str
 
 class Requisicao(BaseModel):

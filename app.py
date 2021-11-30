@@ -20,7 +20,7 @@ recurso = Recurso(codigo_de_acesso="", valor=0)
 validade = Validade(validade=datetime.now() - timedelta(days=+1))
 
 coordenador = Coordenador(coordenador=False,
-                          coordenador_atual=0)
+                          coordenador_atual="0")
 eleicoes = []
 
 
@@ -206,8 +206,8 @@ def ring(req: Requisicao):
     new_req = Requisicao(id = req.id, dados = req.dados)
     if req.dados.__contains__("201720295"):
         for id in req.dados:
-            if int(id) > coord.coordenador:
-                coord.coordenador = int(id)
+            if id > coord.coordenador:
+                coord.coordenador = id
         for i in servers:
             if i.id != '201720295':
                 requests.post(i.url + "eleicao/coordenador", json=coord.dict())
@@ -232,12 +232,13 @@ def ring(req: Requisicao):
 def bully(req: Requisicao):
     maior = 0
     for i in servers:
-        r = requests.post(i.url + "eleicao", json=req.dict())
-        if r.status_code == 200 and int(i.id) > 201720295:
-            maior = 1
-            break
+        if i > 8:
+            r = requests.post(i.url + "eleicao", json=req.dict())
+            if r.status_code == 200:
+                maior = 1
+                break
     if maior == 0:
-        coord = Coordenador_eleito(coordenador=201720295, id_eleicao=req.id)
+        coord = Coordenador_eleito(coordenador="201720295", id_eleicao=req.id)
         for i in servers:
             requests.post(i.url + "eleicao/coordenador", json=coord.dict())
 
