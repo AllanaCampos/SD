@@ -241,7 +241,7 @@ def bully(req: Requisicao):
     if maior == 0:
         coord = Coordenador_eleito(coordenador="201720295", id_eleicao=req.id)
         for i in servers:
-            if i.id != "201720295":
+            if int(i.id) != int("201720295"):
                 requests.post(i.url + "eleicao/coordenador", json=coord.dict())
         coordenador.coordenador_atual = coord.coordenador
         print("testcoord")
