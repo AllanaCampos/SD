@@ -15,7 +15,7 @@ info = Information(server_name='sd-ascampos-20212',
                    descricao='Projeto de SD. Os seguintes serviços estão implementados: request, info e peers',
                    versao='0.1',
                    status='online',
-                   tipo_de_eleicao_ativa='anel')
+                   tipo_de_eleicao_ativa='valentao')
 recurso = Recurso(codigo_de_acesso="", valor=0)
 validade = Validade(validade=datetime.now() - timedelta(days=+1))
 
@@ -117,6 +117,13 @@ def app_recurso_post(cod: Optional[Codigo] = None):
 
 @app.post('/eleicao', status_code=200)
 async def app_eleicao_post(req: Requisicao):
+    '''a = {
+        "from": "https://sd-ascampos-20212.herokuapp.com/info",
+        "severity": "Success",
+        "comment": "Um breve comentario sobre essa entrada",
+        "body": "Qualquer coisa, de corpos de requisição, a codigos de erro, a comentarios proprios (ou até nada mesmo)"
+    }
+    requests.post()'''
     eleicoes.append(req.id)
     if info.tipo_de_eleicao_ativa == 'anel':
         a = ring(req)
