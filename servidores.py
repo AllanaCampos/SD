@@ -66,7 +66,7 @@ p10 = Peer(
 #servers.append(p4)
 servers.append(p5)
 servers.append(p6)
-#servers.append(p7)
+servers.append(p7)
 servers.append(p8)
 #servers.append(p9)
 #servers.append(p10)

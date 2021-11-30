@@ -218,7 +218,7 @@ def ring(req: Requisicao):
     else:
         new_req.dados.append("201720295")
         tentativa = True
-        indice = 9
+        indice = 0#9
         while (tentativa):
             r = requests.post(servers[indice].url + "eleicao", json=req.dict())
             if r.status_code == 200:
@@ -232,7 +232,7 @@ def ring(req: Requisicao):
 def bully(req: Requisicao):
     maior = 0
     for i in servers:
-        if i > 8:
+        if i > 3:
             r = requests.post(i.url + "eleicao", json=req.dict())
             if r.status_code == 200:
                 maior = 1
