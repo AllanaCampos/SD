@@ -286,7 +286,7 @@ def main():
     server = Server(config=config)
 
     loop.create_task(server.serve())
-    #loop.create_task(coordenador_inicial())
+    loop.create_task(coordenador_inicial())
     #loop.create_task(verify_event())
     loop.run_forever()
 
