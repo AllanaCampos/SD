@@ -7,7 +7,7 @@ from fastapi.responses import HTMLResponse
 from models import Aluno, Peer, Information, Recurso, Codigo, Validade, Coordenador, Coordenador_eleito, Requisicao
 from servidores import servers
 
-PORT = os.environ.get('PORT') or "8000"
+PORT = int(os.getenv("PORT", "8000"))
 app = FastAPI()
 
 info = Information(server_name='sd-ascampos-20212',
