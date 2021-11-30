@@ -254,18 +254,19 @@ async def verify_event():
     reqInit = Requisicao(id=str(uuid.uuid4()), dados=[])
     while(True):
         for i in servers:
-            if i.id == str(coordenador.coordenador_atual):
-                r = requests.get(i.url + "info")
-                if r.text.split('"status":')[1].split(',')[0].strip('"') == 'offline':
-                    time.sleep(5)
+            if i.id != "201720295":
+                if i.id == str(coordenador.coordenador_atual):
                     r = requests.get(i.url + "info")
                     if r.text.split('"status":')[1].split(',')[0].strip('"') == 'offline':
-                        reqInit.id = str(uuid.uuid4())
-                        requests.post(servers[8] + "eleicao", json=reqInit.dict())
+                        time.sleep(5)
+                        r = requests.get(i.url + "info")
+                        if r.text.split('"status":')[1].split(',')[0].strip('"') == 'offline':
+                            reqInit.id = str(uuid.uuid4())
+                            requests.post(servers[8] + "eleicao", json=reqInit.dict())
+                        else:
+                            break
                     else:
                         break
-                else:
-                    break
         time.sleep(2)
 
 
