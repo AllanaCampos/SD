@@ -280,6 +280,7 @@ async def coordenador_inicial():
 
 
 
+
 def main():
     loop = asyncio.new_event_loop()
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
@@ -287,7 +288,7 @@ def main():
 
     loop.create_task(server.serve())
     loop.create_task(coordenador_inicial())
-    loop.create_task(verify_event())
+    #loop.create_task(verify_event())
     loop.run_until_complete()
 
 
