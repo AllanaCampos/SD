@@ -232,7 +232,7 @@ def ring(req: Requisicao):
 def bully(req: Requisicao):
     maior = 0
     for i in servers:
-        if i.id > "201720295":
+        if i > 3:
             r = requests.post(i.url + "eleicao", json=req.dict())
             if r.status_code == 200:
                 maior = 1
