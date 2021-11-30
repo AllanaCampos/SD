@@ -281,11 +281,11 @@ def coordenador_inicial():
 
 
 def main():
-    #loop = asyncio.new_event_loop()
+    loop = asyncio.new_event_loop()
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
-    server.serve()
-    #loop.create_task(server.serve())
+
+    loop.create_task(server.serve())
     #loop.create_task(coordenador_inicial())
     #loop.create_task(verify_event())
     #loop.run_forever()
@@ -293,10 +293,5 @@ def main():
 
 
 if __name__ == '__main__':
-    t = Process(target=main())
-    t.start()
-    t.join()
-    e = Process(target=coordenador_inicial())
-    e.start()
-    e.join()
+    main()
 
