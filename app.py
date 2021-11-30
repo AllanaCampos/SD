@@ -289,7 +289,7 @@ def main():
 
     loop.create_task(server.serve())
     loop.create_task(coordenador_inicial())
-    loop.create_task(verify_event())
+    #loop.create_task(verify_event())
     loop.run_forever()
 
 
