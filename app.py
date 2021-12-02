@@ -261,7 +261,6 @@ async def verify_event():
     loop = asyncio.get_event_loop()
     while True:
         print('teste')
-        await loop.run_in_executor()
         for i in servers:
             if i.id != "201720295":
                 if i.id == str(coordenador.coordenador_atual):
@@ -294,7 +293,6 @@ def main():
     loop = asyncio.new_event_loop()
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
-    server.serve()
 
     loop.create_task(server.serve())
     loop.create_task(coordenador_inicial())
