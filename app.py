@@ -16,7 +16,7 @@ info = Information(server_name='sd-ascampos-20212',
                    descricao='Projeto de SD. Os seguintes serviços estão implementados: request, info e peers',
                    versao='0.1',
                    status='online',
-                   tipo_de_eleicao_ativa='valentao')
+                   tipo_de_eleicao_ativa='anel')
 recurso = Recurso(codigo_de_acesso="", valor=0)
 validade = Validade(validade=datetime.now() - timedelta(days=+1))
 
@@ -259,7 +259,6 @@ def bully(req: Requisicao):
 
 async def verify_event():
     while True:
-        print('teste')
         for i in servers:
             if i.id != "201720295":
                 if i.id == str(coordenador.coordenador_atual):
