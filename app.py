@@ -257,26 +257,26 @@ def bully(req: Requisicao):
             coordenador.coordenador = True
 
 
-async def verify_event():
-    print("teste")
-    for i in servers:
-        if i.id != "201720295":
-            if i.id == str(coordenador.coordenador_atual):
-                r = requests.get(i.url + "info")
-                if r.text.split('"status":')[1].split(',')[0].strip('"') == 'offline':
-                    time.sleep(5)
+def verify_event():
+    while(True):
+        for i in servers:
+            if i.id != "201720295":
+                if i.id == str(coordenador.coordenador_atual):
                     r = requests.get(i.url + "info")
                     if r.text.split('"status":')[1].split(',')[0].strip('"') == 'offline':
-                        coordenador_inicial()
+                        time.sleep(5)
+                        r = requests.get(i.url + "info")
+                        if r.text.split('"status":')[1].split(',')[0].strip('"') == 'offline':
+                            coordenador_inicial()
+                        else:
+                            break
                     else:
                         break
-                else:
-                    break
-    await asyncio.sleep(2)
+        time.sleep(2)
 
 
 
-async def coordenador_inicial():
+def coordenador_inicial():
     reqinit = Requisicao(id=str(uuid.uuid4()), dados=[""])
     eleicoes.append(reqinit.id)
     if info.tipo_de_eleicao_ativa == 'anel':
@@ -288,17 +288,21 @@ async def coordenador_inicial():
 
 
 def main():
-    loop = asyncio.new_event_loop()
+    #loop = asyncio.new_event_loop()
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
+    server.serve()
 
-    loop.create_task(server.serve())
+    '''loop.create_task(server.serve())
     loop.create_task(coordenador_inicial())
     loop.create_task(verify_event())
-    loop.run_forever()
+    loop.run_forever()'''
 
 
 
 if __name__ == '__main__':
-    main()
+    threading.Thread(main()).start()
+    threading.Thread(coordenador_inicial()).start()
+    threading.Thread(verify_event()).start()
+
 
