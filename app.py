@@ -301,13 +301,13 @@ def main():
 
 
 if __name__ == '__main__':
-    t = threading.Thread(main())
+    t = threading.Thread(target=main())
     t.start()
     t.join()
-    t2 = threading.Thread(coordenador_inicial())
+    t2 = threading.Thread(target=coordenador_inicial())
     t2.start()
     t2.join()
-    t3 = threading.Thread(verify_event())
+    t3 = threading.Thread(target=verify_event())
     t3.start()
     t3.join()
 
