@@ -258,7 +258,10 @@ def bully(req: Requisicao):
 
 
 def verify_event():
-    while(True):
+    loop = asyncio.get_event_loop()
+    while True:
+        print('teste')
+        await loop.run_in_executor()
         for i in servers:
             if i.id != "201720295":
                 if i.id == str(coordenador.coordenador_atual):
@@ -288,20 +291,21 @@ def coordenador_inicial():
 
 
 def main():
-    #loop = asyncio.new_event_loop()
+    loop = asyncio.new_event_loop()
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
     server.serve()
 
-    '''loop.create_task(server.serve())
+    loop.create_task(server.serve())
     loop.create_task(coordenador_inicial())
     loop.create_task(verify_event())
-    loop.run_forever()'''
+    loop.run_forever()
 
 
 
 if __name__ == '__main__':
-    t = threading.Thread(target=main())
+    main()
+    '''t = threading.Thread(target=main())
     t.start()
     t.join()
     t2 = threading.Thread(target=coordenador_inicial())
@@ -309,6 +313,6 @@ if __name__ == '__main__':
     t2.join()
     t3 = threading.Thread(target=verify_event())
     t3.start()
-    t3.join()
+    t3.join()'''
 
 
