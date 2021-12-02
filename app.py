@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from fastapi.responses import HTMLResponse
 from models import Aluno, Peer, Information, Recurso, Codigo, Validade, Coordenador, Coordenador_eleito, Requisicao
 from servidores import servers
-from multiprocessing import Process
+import threading
 
 PORT = int(os.getenv("PORT", "8000"))
 app = FastAPI()
@@ -118,13 +118,13 @@ def app_recurso_post(cod: Optional[Codigo] = None):
 
 @app.post('/eleicao', status_code=200)
 async def app_eleicao_post(req: Requisicao):
-    '''a = {
-        "from": "https://sd-ascampos-20212.herokuapp.com/info",
+    msg = {
+        "from": "https://sd-ascampos-20212.herokuapp.com/",
         "severity": "Success",
-        "comment": "Um breve comentario sobre essa entrada",
-        "body": "Qualquer coisa, de corpos de requisição, a codigos de erro, a comentarios proprios (ou até nada mesmo)"
+        "comment": "Inicio de eleição",
+        "body": "Eleicao: " + req.id
     }
-    requests.post()'''
+    requests.post("https://sd-log-server.herokuapp.com/log", json=msg)
     eleicoes.append(req.id)
     if info.tipo_de_eleicao_ativa == 'anel':
         ring(req)
@@ -136,6 +136,13 @@ async def app_eleicao_post(req: Requisicao):
 
 @app.post('/eleicao/coordenador', status_code=200)
 def app_eleicao_coordenador_post(coord: Coordenador_eleito):
+    msg = {
+        "from": "https://sd-ascampos-20212.herokuapp.com/",
+        "severity": "Success",
+        "comment": "Novo coordenador" + coord.coordenador,
+        "body": "Eleicao : " + coord.id_eleicao
+    }
+    requests.post("https://sd-log-server.herokuapp.com/log", json=msg)
     eleicoes.remove(coord.id_eleicao)
     if coord.coordenador == "201720295":
         coordenador.coordenador = True
@@ -251,7 +258,6 @@ def bully(req: Requisicao):
 
 
 async def verify_event():
-    reqInit = Requisicao(id=str(uuid.uuid4()), dados=[])
     while(True):
         for i in servers:
             if i.id != "201720295":
@@ -261,8 +267,7 @@ async def verify_event():
                         time.sleep(5)
                         r = requests.get(i.url + "info")
                         if r.text.split('"status":')[1].split(',')[0].strip('"') == 'offline':
-                            reqInit.id = str(uuid.uuid4())
-                            requests.post(servers[8] + "eleicao", json=reqInit.dict())
+                            coordenador_inicial()
                         else:
                             break
                     else:
@@ -289,7 +294,7 @@ def main():
 
     loop.create_task(server.serve())
     loop.create_task(coordenador_inicial())
-    #loop.create_task(verify_event())
+    loop.create_task(verify_event())
     loop.run_forever()
 
 
