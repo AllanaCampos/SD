@@ -127,6 +127,7 @@ async def app_eleicao_post(req: Requisicao):
     requests.post("https://sd-log-server.herokuapp.com/log", json=msg)
     if not eleicoes.__contains__(req.id):
         eleicoes.append(req.id)
+
     if info.tipo_de_eleicao_ativa == 'anel':
         ring(req)
 
