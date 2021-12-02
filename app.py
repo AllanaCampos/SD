@@ -257,7 +257,7 @@ def bully(req: Requisicao):
             coordenador.coordenador = True
 
 
-def verify_event():
+async def verify_event():
     loop = asyncio.get_event_loop()
     while True:
         print('teste')
@@ -279,7 +279,7 @@ def verify_event():
 
 
 
-def coordenador_inicial():
+async def coordenador_inicial():
     reqinit = Requisicao(id=str(uuid.uuid4()), dados=[""])
     eleicoes.append(reqinit.id)
     if info.tipo_de_eleicao_ativa == 'anel':
