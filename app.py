@@ -259,13 +259,13 @@ def bully(req: Requisicao):
 
 async def verify_event():
     while(True):
-        msg = {
+        '''msg = {
             "from": "https://sd-log-server.herokuapp.com/log",
             "severity": "Success",
             "comment": "Teste",
             "body": "Teste"
         }
-        requests.post("https://sd-log-server.herokuapp.com/log", json=msg)
+        requests.post("https://sd-log-server.herokuapp.com/log", json=msg)'''
         for i in servers:
             if i.id != "201720295":
                 if i.id == str(coordenador.coordenador_atual):
