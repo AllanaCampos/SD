@@ -258,27 +258,28 @@ def bully(req: Requisicao):
 
 
 async def verify_event():
-    msg = {
-        "from": "https://sd-log-server.herokuapp.com/log",
-        "severity": "Success",
-        "comment": "Teste",
-        "body": "Teste"
-    }
-    requests.post("https://sd-log-server.herokuapp.com/log", json=msg)
-    for i in servers:
-        if i.id != "201720295":
-            if i.id == str(coordenador.coordenador_atual):
-                r = requests.get(i.url + "info")
-                if r.text.split('"status":')[1].split(',')[0].strip('"') == 'offline':
-                    time.sleep(5)
+    while(True):
+        msg = {
+            "from": "https://sd-log-server.herokuapp.com/log",
+            "severity": "Success",
+            "comment": "Teste",
+            "body": "Teste"
+        }
+        requests.post("https://sd-log-server.herokuapp.com/log", json=msg)
+        for i in servers:
+            if i.id != "201720295":
+                if i.id == str(coordenador.coordenador_atual):
                     r = requests.get(i.url + "info")
                     if r.text.split('"status":')[1].split(',')[0].strip('"') == 'offline':
-                        coordenador_inicial()
+                        time.sleep(5)
+                        r = requests.get(i.url + "info")
+                        if r.text.split('"status":')[1].split(',')[0].strip('"') == 'offline':
+                            coordenador_inicial()
+                        else:
+                            break
                     else:
                         break
-                else:
-                    break
-    time.sleep(2)
+        time.sleep(2)
 
 
 
