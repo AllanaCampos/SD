@@ -301,8 +301,14 @@ def main():
 
 
 if __name__ == '__main__':
-    threading.Thread(main()).start()
-    threading.Thread(coordenador_inicial()).start()
-    threading.Thread(verify_event()).start()
+    t = threading.Thread(main())
+    t.start()
+    t.join()
+    t2 = threading.Thread(coordenador_inicial())
+    t2.start()
+    t2.join()
+    t3 = threading.Thread(verify_event())
+    t3.start()
+    t3.join()
 
 
