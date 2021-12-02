@@ -258,7 +258,7 @@ def bully(req: Requisicao):
 
 
 async def verify_event():
-
+    print("teste")
     for i in servers:
         if i.id != "201720295":
             if i.id == str(coordenador.coordenador_atual):
@@ -272,7 +272,7 @@ async def verify_event():
                         break
                 else:
                     break
-    time.sleep(2)
+    await asyncio.sleep(2)
 
 
 
