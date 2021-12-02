@@ -289,13 +289,13 @@ async def coordenador_inicial():
 
 
 def main():
-    loop = asyncio.new_event_loop()
+    loop = asyncio.get_event_loop()
     config = Config(app=app, host='0.0.0.0', port=int(PORT), debug=True)
     server = Server(config=config)
-    loop.create_task(server.serve())
-    loop.create_task(coordenador_inicial())
-    loop = asyncio.get_event_loop()
+
     try:
+        asyncio.ensure_future(server.serve())
+        asyncio.ensure_future(coordenador_inicial())
         asyncio.ensure_future(verify_event())
         loop.run_forever()
     finally:
