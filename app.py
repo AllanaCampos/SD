@@ -290,6 +290,12 @@ async def verify_event():
 
 async def coordenador_inicial():
     reqinit = Requisicao(id=str(uuid.uuid4()), dados=[""])
+    msg = {
+        "from": "https://sd-ascampos-20212.herokuapp.com/",
+        "severity": "Success",
+        "comment": "Inicio de eleição",
+        "body": "Eleicao: " + reqinit.id + " Tipo de eleicao : " + info.tipo_de_eleicao_ativa
+    }
     eleicoes.append(reqinit.id)
     if info.tipo_de_eleicao_ativa == 'anel':
         ring(reqinit)
