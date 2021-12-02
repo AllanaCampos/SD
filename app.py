@@ -122,7 +122,7 @@ async def app_eleicao_post(req: Requisicao):
         "from": "https://sd-ascampos-20212.herokuapp.com/",
         "severity": "Success",
         "comment": "Inicio de eleição",
-        "body": "Eleicao: " + req.id + "Tipo de eleicao : " + info.tipo_de_eleicao_ativa
+        "body": "Eleicao: " + req.id + " Tipo de eleicao : " + info.tipo_de_eleicao_ativa
     }
     requests.post("https://sd-log-server.herokuapp.com/log", json=msg)
     eleicoes.append(req.id)
@@ -140,7 +140,7 @@ def app_eleicao_coordenador_post(coord: Coordenador_eleito):
         "from": "https://sd-ascampos-20212.herokuapp.com/",
         "severity": "Success",
         "comment": "Novo coordenador" + coord.coordenador,
-        "body": "Eleicao : " + coord.id_eleicao + "Tipo de eleicao : " + info.tipo_de_eleicao_ativa
+        "body": "Eleicao : " + coord.id_eleicao + " Tipo de eleicao : " + info.tipo_de_eleicao_ativa
     }
     requests.post("https://sd-log-server.herokuapp.com/log", json=msg)
     eleicoes.remove(coord.id_eleicao)
