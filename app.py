@@ -118,21 +118,31 @@ def app_recurso_post(cod: Optional[Codigo] = None):
 
 @app.post('/eleicao', status_code=200)
 async def app_eleicao_post(req: Requisicao):
-    msg = {
-        "from": "https://sd-ascampos-20212.herokuapp.com/",
-        "severity": "Success",
-        "comment": "Inicio de eleição",
-        "body": "Eleicao: " + req.id + " Tipo de eleicao : " + info.tipo_de_eleicao_ativa
-    }
-    requests.post("https://sd-log-server.herokuapp.com/log", json=msg)
-    if not eleicoes.__contains__(req.id):
-        eleicoes.append(req.id)
+    if info.status == "offline":
+        msg = {
+            "from": "https://sd-ascampos-20212.herokuapp.com/",
+            "severity": "Error",
+            "comment": "Server offline",
+            "body": "Eleicao: " + req.id + " Tipo de eleicao : " + info.tipo_de_eleicao_ativa
+        }
+        requests.post("https://sd-log-server.herokuapp.com/log", json=msg)
+        return HTMLResponse(content="Error", status_code=404)
+    else:
+        msg = {
+            "from": "https://sd-ascampos-20212.herokuapp.com/",
+            "severity": "Success",
+            "comment": "Inicio de eleição",
+            "body": "Eleicao: " + req.id + " Tipo de eleicao : " + info.tipo_de_eleicao_ativa
+        }
+        requests.post("https://sd-log-server.herokuapp.com/log", json=msg)
+        if not eleicoes.__contains__(req.id):
+            eleicoes.append(req.id)
 
-    if info.tipo_de_eleicao_ativa == 'anel':
-        ring(req)
+        if info.tipo_de_eleicao_ativa == 'anel':
+            ring(req)
 
-    if info.tipo_de_eleicao_ativa == 'valentao':
-        bully(req)
+        if info.tipo_de_eleicao_ativa == 'valentao':
+            bully(req)
 
 
 
