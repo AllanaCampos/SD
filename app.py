@@ -16,7 +16,7 @@ info = Information(server_name='sd-ascampos-20212',
                    descricao='Projeto de SD. Os seguintes serviços estão implementados: request, info e peers',
                    versao='0.1',
                    status='online',
-                   tipo_de_eleicao_ativa='anel')
+                   tipo_de_eleicao_ativa='valentao')
 recurso = Recurso(codigo_de_acesso="", valor=0)
 validade = Validade(validade=datetime.now() - timedelta(days=+1))
 
@@ -239,7 +239,7 @@ def ring(req: Requisicao):
     else:
         new_req.dados.append("201720295")
         tentativa = True
-        indice = 0#9
+        indice = 9
         while (tentativa):
             r = requests.post(servers[indice].url + "eleicao", json=req.dict())
             if r.status_code == 200:
