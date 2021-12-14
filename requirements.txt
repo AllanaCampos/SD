@@ -1,2 +1,7 @@
 fastapi
 uvicorn
+requests
+uuid
+datetime
+pydantic
+asyncio
